@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from . import __version__ as app_version
-from . import __logo__ as app_logo
-
 
 app_name = "whitelabel"
 app_title = "Whitelabel"
@@ -12,7 +10,16 @@ app_icon = "octicon octicon-file-directory"
 app_color = "grey"
 app_email = "maheshwaribhavesh95863@gmail.com"
 app_license = "MIT"
-app_logo_url = '/assets/whitelabel/images/whitelabel_logo.jpg'
+
+def get_app_logo():
+	"""Get the app logo URL from configuration or default"""
+	import frappe
+	if frappe.conf and frappe.conf.get("app_logo_url"):
+		return frappe.conf.get("app_logo_url") or '/assets/whitelabel/images/whitelabel_logo.jpg'
+	else:
+		return '/assets/whitelabel/images/whitelabel_logo.jpg'
+
+app_logo_url = get_app_logo()
 
 # Includes in <head>
 # ------------------
@@ -49,8 +56,8 @@ web_include_css = "/assets/whitelabel/css/whitelabel_web.css"
 # get_website_user_home_page = "whitelabel.utils.get_home_page"
 
 website_context = {
-	"favicon": app_logo or "/assets/whitelabel/images/whitelabel_logo.jpg",
-	"splash_image": app_logo or "/assets/whitelabel/images/whitelabel_logo.jpg"
+	"favicon": app_logo_url,
+	"splash_image": app_logo_url
 }
 after_migrate = ['whitelabel.api.whitelabel_patch']
 

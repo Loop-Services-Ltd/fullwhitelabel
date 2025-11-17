@@ -4,6 +4,13 @@ import json
 from frappe.utils import floor, flt, today, cint
 from frappe import _
 
+def get_app_logo():
+	"""Get the app logo URL from configuration or default"""
+	if frappe.conf and frappe.conf.get("app_logo_url"):
+		return frappe.conf.get("app_logo_url") or '/assets/whitelabel/images/whitelabel_logo.jpg'
+	else:
+		return '/assets/whitelabel/images/whitelabel_logo.jpg'
+
 def whitelabel_patch():
 	#delete erpnext welcome page 
 	frappe.delete_doc_if_exists('Page', 'welcome-to-erpnext', force=1)
