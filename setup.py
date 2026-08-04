@@ -2,10 +2,15 @@
 from setuptools import setup, find_packages
 
 with open('requirements.txt') as f:
-	install_requires = f.read().strip().split('\n')
+	install_requires = [
+		line
+		for line in f.read().strip().split('\n')
+		if line and not line.startswith('#')
+	]
 
-# get version from __version__ variable in whitelabel/__init__.py
-from whitelabel import __version__ as version
+# Keep version inline so editable installs work in uv's isolated build env
+# (importing the package pulls in runtime deps like frappe).
+version = '0.0.1'
 
 setup(
 	name='whitelabel',
